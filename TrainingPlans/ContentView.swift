@@ -12,7 +12,10 @@ struct ContentView: View {
     @State var isSignUpActive = false
     @AppStorage("username_input") var username: String = ""
     @AppStorage("password_input") var password: String = ""
+    @AppStorage("validLogin")   var isValid:Bool = false
     var appStore:appStorageUtility=appStorageUtility()
+    
+    @Binding var signInSuccess: Bool
     var body: some View {
         NavigationView {
         VStack {
@@ -35,7 +38,8 @@ struct ContentView: View {
                 Spacer()
             Button(action:{
                 if username == appStore.username && password == appStore.password {
-                    print("Valid")
+                    self.signInSuccess = true
+                    
                 }
             }){
                 HStack(spacing:20) {
@@ -88,7 +92,8 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+     @State static var signInSuccess = false
     static var previews: some View {
-        ContentView()
+        ContentView(signInSuccess: $signInSuccess)
     }
 }

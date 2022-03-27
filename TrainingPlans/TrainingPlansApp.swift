@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct TrainingPlansApp: App {
+    @State var signInSuccess = false
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if signInSuccess {
+            MainView()
+            }
+            else {
+                ContentView(signInSuccess: $signInSuccess)
+            }
         }
     }
 }
