@@ -58,6 +58,7 @@ struct ContentView: View {
             .accentColor(Color.black)
             
                 Button(action:{
+                    appStore.emptyIt()
                    isSignUpActive = true
                 }){
                     HStack(spacing:20) {
@@ -77,8 +78,8 @@ struct ContentView: View {
        
                        
                        .background(
-                           NavigationLink(destination: SignUpView(), isActive: $isSignUpActive) {
-                               SignUpView()
+                        NavigationLink(destination: SignUpView(signInSuccess: $signInSuccess), isActive: $isSignUpActive) {
+                            SignUpView(signInSuccess:$signInSuccess)
                            }
                            .hidden()
                        )

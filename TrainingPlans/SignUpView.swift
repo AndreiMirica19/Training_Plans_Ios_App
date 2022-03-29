@@ -10,7 +10,10 @@ import SwiftUI
 struct SignUpView: View {
     @State private var UsernameInput:String = ""
     @State private var isCycling:Bool = false
-    var appStore:appStorageUtility=appStorageUtility()
+    @State private var errorPopUp:Bool = false
+    @State var appStore:appStorageUtility=appStorageUtility()
+    @Binding var signInSuccess: Bool
+   @State var errorMessage = ""
     var body: some View {
         ScrollView {
             VStack {
@@ -29,6 +32,7 @@ struct SignUpView: View {
                    FormFieldView(label: "Weight")
                    ToggleView(label: "Cyclist")
                    ToggleView(label: "Runner")
+                        
                 }.background( RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.black,lineWidth: 5))
                     
                
@@ -37,7 +41,13 @@ struct SignUpView: View {
                     Spacer()
               
                 Button(action:{
-                   
+                    if !appStore.is_Empty() {
+                    self.signInSuccess = true
+                    }
+                    else {
+                    errorMessage = "All the fields must be completed"
+                    errorPopUp = true
+                    }
                 }){
                     HStack(spacing:20) {
                         Text("Sign Up")
@@ -51,6 +61,9 @@ struct SignUpView: View {
                     .background(
                         Capsule().strokeBorder(Color.black,lineWidth: 5)
                     )
+                   
+                }.alert(errorMessage, isPresented: $errorPopUp) {
+                    Button("OK", role: .cancel) { }
                 }
                 .accentColor(Color.black)
               
@@ -61,7 +74,8 @@ struct SignUpView: View {
 }
 
 struct SignUpView_Previews: PreviewProvider {
+    @State static var signInSuccess = false
     static var previews: some View {
-        SignUpView()
+        SignUpView(signInSuccess:$signInSuccess)
     }
 }

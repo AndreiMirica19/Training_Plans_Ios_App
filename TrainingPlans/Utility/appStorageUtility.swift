@@ -15,4 +15,17 @@ struct appStorageUtility {
     @AppStorage("weight")   var weight:String = ""
     @AppStorage("cyclist")  var isCyclist:String = ""
     @AppStorage("runner")  var isRunner:String = ""
+    func emptyIt(){
+        username = ""
+        password = ""
+        email = ""
+        height = ""
+        weight = ""
+    }
+    func is_Empty()->Bool{
+        if username == "" || password == "" || email == "" || height == "" || weight == "" {
+            return true
+        }
+        return false
+    }
 }
