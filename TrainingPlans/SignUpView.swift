@@ -12,6 +12,7 @@ struct SignUpView: View {
     @State private var isCycling:Bool = false
     @State private var errorPopUp:Bool = false
     @State var appStore:appStorageUtility=appStorageUtility()
+    @ObservedObject var model = ViewModel()
     @Binding var signInSuccess: Bool
    @State var errorMessage = ""
     var body: some View {
@@ -41,9 +42,19 @@ struct SignUpView: View {
                     Spacer()
               
                 Button(action:{
-                    if !appStore.is_Empty() {
+                    
+                    if !appStore.is_Empty()  {
+                       check()
+                        if errorMessage == "" {
+                           model.addData(athlete: Athlete(id: "", Username: appStore.username,Email: appStore.email, Password: appStore.password, Height: appStore.height, Weight: appStore.weight, Cyclist: true, Runner: true))
                     self.signInSuccess = true
+                        }
+                            
                     }
+                            
+                        
+                    
+                    
                     else {
                     errorMessage = "All the fields must be completed"
                     errorPopUp = true
@@ -63,12 +74,62 @@ struct SignUpView: View {
                     )
                    
                 }.alert(errorMessage, isPresented: $errorPopUp) {
-                    Button("OK", role: .cancel) { }
+                    Button("OK", role: .cancel) {
+                        errorMessage = ""
+                    }
                 }
                 .accentColor(Color.black)
               
                
             }
+        }
+    }
+    init(signInSuccess: Binding<Bool>){
+        self._signInSuccess = signInSuccess
+        model.getData()
+        
+    }
+    func check(){
+        let RegEx = "\\w{7,28}"
+        let usernamePred = NSPredicate(format:"SELF MATCHES %@", RegEx)
+        let passwordPred = NSPredicate(format: "SELF MATCHES %@ ", "^(?=.*[a-z])(?=.*[$@$#!%*?&]).{6,}$")
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        let numberRegEX = "[0-9]+"
+        let numberPred = NSPredicate(format:"SELF MATCHES %@", numberRegEX)
+       
+       
+        
+        if model.userExits(username: appStore.username){
+            errorMessage = "User name already exists"
+            errorPopUp = true
+           
+        }
+        if model.emailAlreadyUsed(email: appStore.email){
+                errorMessage = "Email already used"
+                errorPopUp = true
+            }
+        if !numberPred.evaluate(with: appStore.weight){
+            errorMessage = "Weight must be a number"
+            errorPopUp = true
+        }
+        
+        if !numberPred.evaluate(with: appStore.height){
+            errorMessage = "Height must be a number"
+            errorPopUp = true
+        }
+        if !passwordPred.evaluate(with: appStore.password) {
+            errorMessage = "password must contains one special characters and is minimum six char long"
+            errorPopUp = true
+        }
+        
+        if !emailPred.evaluate(with: appStore.email){
+            errorMessage = "Wrong email format"
+            errorPopUp = true
+        }
+        if !usernamePred.evaluate(with: appStore.username){
+            errorMessage = "Username does not contains between 7-28 characters"
+            errorPopUp = true
         }
     }
 }

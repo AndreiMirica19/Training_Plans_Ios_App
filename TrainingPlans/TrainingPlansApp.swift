@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
-
+import Firebase
 @main
 struct TrainingPlansApp: App {
     @State var signInSuccess = false
+    init(){
+        FirebaseApp.configure()
+    }
     var body: some Scene {
         WindowGroup {
             if signInSuccess {

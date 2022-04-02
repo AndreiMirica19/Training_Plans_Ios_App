@@ -14,9 +14,10 @@ struct ContentView: View {
     @AppStorage("password_input") var password: String = ""
     @AppStorage("validLogin")   var isValid:Bool = false
     var appStore:appStorageUtility=appStorageUtility()
-    
+    @ObservedObject var model = ViewModel()
     @Binding var signInSuccess: Bool
     var body: some View {
+        
         NavigationView {
         VStack {
             
@@ -37,9 +38,16 @@ struct ContentView: View {
                 Spacer()
                 Spacer()
             Button(action:{
-                if username == appStore.username && password == appStore.password {
+               
+                for i in 0...model.users.count-1{
+                    if username == model.users[i].Username && password == model.users[i].Password {
+                        
                     self.signInSuccess = true
+                }
                     
+                }
+                if signInSuccess == false {
+                    print("Invalid")
                 }
             }){
                 HStack(spacing:20) {
@@ -88,6 +96,13 @@ struct ContentView: View {
                 
         }
         .ignoresSafeArea(.all, edges: .all)
+        
+        
+    }
+   
+    init(signInSuccess: Binding<Bool>){
+        self._signInSuccess = signInSuccess
+        model.getData()
         
     }
 }
