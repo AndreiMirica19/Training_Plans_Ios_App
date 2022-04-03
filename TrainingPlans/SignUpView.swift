@@ -14,7 +14,7 @@ struct SignUpView: View {
     @State var appStore:appStorageUtility=appStorageUtility()
     @ObservedObject var model = ViewModel()
     @Binding var signInSuccess: Bool
-   @State var errorMessage = ""
+    @State var errorMessage = ""
     var body: some View {
         ScrollView {
             VStack {
@@ -22,11 +22,12 @@ struct SignUpView: View {
                     
                     .font(Font.custom("DelaGothicOne-Regular", size: 90))
                     .bold()
-                    .foregroundColor(.yellow)
+                    .foregroundColor(.black)
                     .fontWeight(.black)
                 Spacer()
                 VStack {
                    FormFieldView(label: "Username")
+                    
                    FormFieldView(label: "Email")
                    FormFieldView(label: "Password")
                    FormFieldView(label: "Height")
@@ -82,6 +83,7 @@ struct SignUpView: View {
               
                
             }
+            .background(Image("SignUpWallpaper").blur(radius: 23))
         }
     }
     init(signInSuccess: Binding<Bool>){

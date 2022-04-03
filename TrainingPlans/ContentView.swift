@@ -17,20 +17,23 @@ struct ContentView: View {
     @ObservedObject var model = ViewModel()
     @Binding var signInSuccess: Bool
     var body: some View {
-        
+       
         NavigationView {
+            ZStack{
         VStack {
             
             Text("Log In")
                 
                 .font(Font.custom("DelaGothicOne-Regular", size: 90))
                 .bold()
-                .foregroundColor(.yellow)
+                .foregroundColor(.black)
                 .fontWeight(.black)
            
             VStack {
                 FormFieldView(label:"username_input")
+                    .foregroundColor(.white)
                 FormFieldView(label: "password_input")
+                    .foregroundColor(.white)
              
             }.background( RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.black,lineWidth: 5))
            
@@ -53,14 +56,16 @@ struct ContentView: View {
                 HStack(spacing:20) {
                     Text("Log In")
                         .font((Font.custom("DelaGothicOne-Regular", size: 36)))
+                        .foregroundColor(.white)
                    Image(systemName: "arrow.right.circle")
                         .resizable()
                         .frame(width: 36, height: 36, alignment: .leading)
+                        .foregroundColor(.white)
                 }
                 .padding(.horizontal,16)
                 .padding(.vertical,10)
                 .background(
-                    Capsule().strokeBorder(Color.black,lineWidth: 5)
+                    Capsule().strokeBorder(Color.white,lineWidth: 5)
                 )
             }
             .accentColor(Color.black)
@@ -72,17 +77,21 @@ struct ContentView: View {
                     HStack(spacing:20) {
                         Text("Sign Up")
                             .font((Font.custom("DelaGothicOne-Regular", size: 36)))
+                            .foregroundColor(.white)
                        Image(systemName: "square.and.pencil")
                             .resizable()
                             .frame(width: 36, height: 36, alignment: .leading)
+                            .foregroundColor(.white)
                     }
+                    
                     .padding(.horizontal,16)
                     .padding(.vertical,10)
                     .background(
-                        Capsule().strokeBorder(Color.black,lineWidth: 5)
+                        Capsule().strokeBorder(Color.white,lineWidth: 5)
+                            
                     )
                 }
-                .accentColor(Color.black)
+                .accentColor(Color.yellow)
        
                        
                        .background(
@@ -93,16 +102,28 @@ struct ContentView: View {
                        )
                    }
         
-                
+        
+            }
+            .padding()
+            .background(Image("wallpaper").blur(radius: 20))
+         
+                       
+            
+            
         }
+        
+        
         .ignoresSafeArea(.all, edges: .all)
         
         
+    
     }
    
     init(signInSuccess: Binding<Bool>){
         self._signInSuccess = signInSuccess
         model.getData()
+        
+        model.getTrainingPlan()
         
     }
 }

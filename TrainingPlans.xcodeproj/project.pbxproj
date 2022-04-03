@@ -18,8 +18,12 @@
 		2E0D95D027F0578A00E31F68 /* Athlete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D95CF27F0578A00E31F68 /* Athlete.swift */; };
 		2E0D95D227F0749A00E31F68 /* appStorageUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D95D127F0749A00E31F68 /* appStorageUtility.swift */; };
 		2E0D95D527F077D300E31F68 /* ToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D95D427F077D300E31F68 /* ToggleView.swift */; };
-		2E0D95D727F0848200E31F68 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D95D627F0848200E31F68 /* MainView.swift */; };
 		2E0DCF6A27F2E4EF00854432 /* ErrorMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0DCF6927F2E4EF00854432 /* ErrorMessageView.swift */; };
+		2E6361D927F9844300C0CAA2 /* MainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6361D827F9844300C0CAA2 /* MainContentView.swift */; };
+		2E6361DB27F9849C00C0CAA2 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6361DA27F9849C00C0CAA2 /* MainView.swift */; };
+		2E6361DF27F98A5100C0CAA2 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6361DE27F98A5100C0CAA2 /* Stats.swift */; };
+		2E6361E127F98AD200C0CAA2 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6361E027F98AD200C0CAA2 /* Calendar.swift */; };
+		2E6361E727F9BD9900C0CAA2 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6361E627F9BD9900C0CAA2 /* Session.swift */; };
 		2EC946C927F815BA000CE666 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC946C827F815BA000CE666 /* ViewModel.swift */; };
 		2EC946CF27F821DA000CE666 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EC946CE27F821DA000CE666 /* GoogleService-Info.plist */; };
 		2EC946D227F82AC0000CE666 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2EC946D127F82AC0000CE666 /* FirebaseFirestore */; };
@@ -39,8 +43,12 @@
 		2E0D95CF27F0578A00E31F68 /* Athlete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Athlete.swift; sourceTree = "<group>"; };
 		2E0D95D127F0749A00E31F68 /* appStorageUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appStorageUtility.swift; sourceTree = "<group>"; };
 		2E0D95D427F077D300E31F68 /* ToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleView.swift; sourceTree = "<group>"; };
-		2E0D95D627F0848200E31F68 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		2E0DCF6927F2E4EF00854432 /* ErrorMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageView.swift; sourceTree = "<group>"; };
+		2E6361D827F9844300C0CAA2 /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainContentView.swift; path = ../../MainContentView.swift; sourceTree = "<group>"; };
+		2E6361DA27F9849C00C0CAA2 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		2E6361DE27F98A5100C0CAA2 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
+		2E6361E027F98AD200C0CAA2 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		2E6361E627F9BD9900C0CAA2 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		2EC946C827F815BA000CE666 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		2EC946CE27F821DA000CE666 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,8 +95,8 @@
 				2E0D95B927F02CB400E31F68 /* Assets.xcassets */,
 				2E0D95BB27F02CB400E31F68 /* Preview Content */,
 				2E0D95C927F03FD400E31F68 /* SignUpView.swift */,
-				2E0D95D627F0848200E31F68 /* MainView.swift */,
 				2EC946CE27F821DA000CE666 /* GoogleService-Info.plist */,
+				2E6361DA27F9849C00C0CAA2 /* MainView.swift */,
 			);
 			path = TrainingPlans;
 			sourceTree = "<group>";
@@ -113,9 +121,12 @@
 		2E0D95CB27F0495D00E31F68 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2E6361D827F9844300C0CAA2 /* MainContentView.swift */,
 				2E0D95CC27F0497900E31F68 /* FormFieldView.swift */,
 				2E0D95D427F077D300E31F68 /* ToggleView.swift */,
 				2E0DCF6927F2E4EF00854432 /* ErrorMessageView.swift */,
+				2E6361DE27F98A5100C0CAA2 /* Stats.swift */,
+				2E6361E027F98AD200C0CAA2 /* Calendar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -124,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				2E0D95CF27F0578A00E31F68 /* Athlete.swift */,
+				2E6361E627F9BD9900C0CAA2 /* Session.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -223,13 +235,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E6361E727F9BD9900C0CAA2 /* Session.swift in Sources */,
 				2EC946C927F815BA000CE666 /* ViewModel.swift in Sources */,
+				2E6361DF27F98A5100C0CAA2 /* Stats.swift in Sources */,
+				2E6361D927F9844300C0CAA2 /* MainContentView.swift in Sources */,
 				2E0D95D027F0578A00E31F68 /* Athlete.swift in Sources */,
-				2E0D95D727F0848200E31F68 /* MainView.swift in Sources */,
 				2E0D95D227F0749A00E31F68 /* appStorageUtility.swift in Sources */,
 				2E0DCF6A27F2E4EF00854432 /* ErrorMessageView.swift in Sources */,
 				2E0D95B827F02CB300E31F68 /* ContentView.swift in Sources */,
 				2E0D95CD27F0497900E31F68 /* FormFieldView.swift in Sources */,
+				2E6361DB27F9849C00C0CAA2 /* MainView.swift in Sources */,
+				2E6361E127F98AD200C0CAA2 /* Calendar.swift in Sources */,
 				2E0D95CA27F03FD400E31F68 /* SignUpView.swift in Sources */,
 				2E0D95B627F02CB300E31F68 /* TrainingPlansApp.swift in Sources */,
 				2E0D95D527F077D300E31F68 /* ToggleView.swift in Sources */,
@@ -373,6 +389,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -404,6 +421,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
