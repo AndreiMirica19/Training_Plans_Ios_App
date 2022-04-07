@@ -15,7 +15,8 @@ struct Athlete:Identifiable {
     var Weight :String
     var Cyclist:Bool
     var Runner:Bool
-   
+    var lastWorkoutIndex:Int
+    var lastWorkoutTime:Date
     
     
 }

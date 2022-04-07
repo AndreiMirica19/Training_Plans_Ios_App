@@ -13,8 +13,9 @@ struct ContentView: View {
     @AppStorage("username_input") var username: String = ""
     @AppStorage("password_input") var password: String = ""
     @AppStorage("validLogin")   var isValid:Bool = false
+    @AppStorage("currentUserIndex") var index:Int = -1
     var appStore:appStorageUtility=appStorageUtility()
-    @ObservedObject var model = ViewModel()
+    @ObservedObject  public var model = ViewModel()
     @Binding var signInSuccess: Bool
     var body: some View {
        
@@ -44,7 +45,7 @@ struct ContentView: View {
                
                 for i in 0...model.users.count-1{
                     if username == model.users[i].Username && password == model.users[i].Password {
-                        
+                        index = i
                     self.signInSuccess = true
                 }
                     
@@ -124,6 +125,7 @@ struct ContentView: View {
         model.getData()
         
         model.getTrainingPlan()
+        print(model.trainingPlan)
         
     }
 }

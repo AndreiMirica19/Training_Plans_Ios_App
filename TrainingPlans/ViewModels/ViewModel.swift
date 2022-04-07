@@ -31,7 +31,7 @@ class ViewModel : ObservableObject {
     
     func addData(athlete:Athlete){
         let db = Firestore.firestore()
-        db.collection("Users").addDocument(data: ["Username":athlete.Username,"Email":athlete.Email,"Password":athlete.Password,"Height":athlete.Height,"Weight":athlete.Weight,"Cyclist":athlete.Cyclist,"Runner":athlete.Runner]) { error in
+        db.collection("Users").addDocument(data: ["Username":athlete.Username,"Email":athlete.Email,"Password":athlete.Password,"Height":athlete.Height,"Weight":athlete.Weight,"Cyclist":athlete.Cyclist,"Runner":athlete.Runner,"Last Workout":athlete.lastWorkoutIndex,"Last Workout Date":athlete.lastWorkoutTime]) { error in
             if error == nil {
                 self.getData()
             }
@@ -51,7 +51,7 @@ class ViewModel : ObservableObject {
                       
                     self.users =  snapshot.documents.map { d in
                         
-                        return Athlete(id: d.documentID, Username: d["Username"] as?String ?? "",Email: d["Email"] as? String ?? "", Password: d["Password"] as?String ?? "", Height: d["Height"] as?String ?? "", Weight: d["Weight"] as?String ?? "", Cyclist: d["Cyclist"] as?Bool ?? false, Runner: d["Runner"] as?Bool ?? false)
+                        return Athlete(id: d.documentID, Username: d["Username"] as?String ?? "",Email: d["Email"] as? String ?? "", Password: d["Password"] as?String ?? "", Height: d["Height"] as?String ?? "", Weight: d["Weight"] as?String ?? "", Cyclist: d["Cyclist"] as?Bool ?? false, Runner: d["Runner"] as?Bool ?? false,lastWorkoutIndex: d["Last Workout"] as?Int ?? 0, lastWorkoutTime:d["Last Workout Date"] as? Date ?? Date.now)
                     }
                         
                     }
@@ -63,8 +63,8 @@ class ViewModel : ObservableObject {
             else {
                 
             }
+        
         }
-       
        
 
         
@@ -75,9 +75,9 @@ class ViewModel : ObservableObject {
             if error == nil {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
-                      var index = -1
+                      
                         self.trainingPlans = snapshot.documents.map { d in
-                            var m =  d["Sessions"]  as! [[String: Any]]
+                            let m =  d["Sessions"]  as! [[String: Any]]
                             var s = [Session]()
                             for i in m{
                                 s.append(Session(description: i["Description"] as?String ?? "" , duration: i["Duration"] as?String ?? "", name: i["name"] as?String ?? "", recovery: i["recovery"] as?String ?? ""))
@@ -87,6 +87,8 @@ class ViewModel : ObservableObject {
                             return s
                         }
                         self.trainingPlan = self.trainingPlans[0]
+                        
+                        
                     }
                  
                 }

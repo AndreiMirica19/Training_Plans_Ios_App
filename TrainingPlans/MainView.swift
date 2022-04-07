@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
+    
+   
     var body: some View {
         TabView{
             MainContentView()
@@ -38,6 +40,8 @@ struct MainView: View {
         
         
     }
+    
+   
 }
 
 struct MainView_Previews: PreviewProvider {

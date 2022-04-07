@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainContentView: View {
+    @AppStorage("currentUserIndex") var index:Int = -1
+    @ObservedObject var model:ViewModel = ViewModel()
     var body: some View {
         ZStack{
         VStack{
@@ -18,7 +20,7 @@ struct MainContentView: View {
                 .font((Font.custom("DelaGothicOne-Regular", size: 36)))
                 .foregroundColor(.orange)
             HStack {
-                Text("Duration:")
+                Text(model.trainingPlan[0].duration)
                     .font((Font.custom("DelaGothicOne-Regular", size: 26)))
                 .bold()
                 Text ("00:00")
@@ -57,10 +59,12 @@ struct MainContentView: View {
         .padding(.vertical,20)
         
     }
+    
 }
 
 struct MainContentView_Previews: PreviewProvider {
+    @ObservedObject static var model:ViewModel = ViewModel()
     static var previews: some View {
-        MainContentView()
+        MainContentView(model: model)
     }
 }
