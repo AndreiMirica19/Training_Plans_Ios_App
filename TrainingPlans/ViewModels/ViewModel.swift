@@ -12,6 +12,10 @@ class ViewModel : ObservableObject {
     @Published var users = [Athlete]()
     @Published var trainingPlans = [[Session]]()
     @Published var trainingPlan = [Session]()
+    init() {
+        getData()
+        getTrainingPlan()
+    }
     func userExits(username:String)->Bool{
         for i in users {
             if username == i.Username {
@@ -66,6 +70,8 @@ class ViewModel : ObservableObject {
         
         }
        
+       
+       
 
         
     }
@@ -89,7 +95,8 @@ class ViewModel : ObservableObject {
                         self.trainingPlan = self.trainingPlans[0]
                         
                         
-                    }
+                   }
+                    
                  
                 }
             }

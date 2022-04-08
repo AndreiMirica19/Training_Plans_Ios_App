@@ -15,7 +15,7 @@ struct ContentView: View {
     @AppStorage("validLogin")   var isValid:Bool = false
     @AppStorage("currentUserIndex") var index:Int = -1
     var appStore:appStorageUtility=appStorageUtility()
-    @ObservedObject  public var model = ViewModel()
+    @EnvironmentObject var db:ViewModel
     @Binding var signInSuccess: Bool
     var body: some View {
        
@@ -43,8 +43,8 @@ struct ContentView: View {
                 Spacer()
             Button(action:{
                
-                for i in 0...model.users.count-1{
-                    if username == model.users[i].Username && password == model.users[i].Password {
+                for i in 0...db.users.count-1{
+                    if username == db.users[i].Username && password == db.users[i].Password {
                         index = i
                     self.signInSuccess = true
                 }
@@ -112,20 +112,22 @@ struct ContentView: View {
             
             
         }
-        
+        .onAppear(perform: {
+            
+        })
         
         .ignoresSafeArea(.all, edges: .all)
         
-        
+       
     
     }
    
     init(signInSuccess: Binding<Bool>){
         self._signInSuccess = signInSuccess
-        model.getData()
-        
-        model.getTrainingPlan()
-        print(model.trainingPlan)
+    //model.getData()
+        //model.getTrainingPlan()
+       
+       
         
     }
 }

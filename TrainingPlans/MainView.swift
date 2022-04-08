@@ -9,10 +9,11 @@ import SwiftUI
 
 struct MainView: View {
     
-   
+    @EnvironmentObject var db:ViewModel
     var body: some View {
         TabView{
             MainContentView()
+                .environmentObject(db)
                 .tabItem{
                     Image(systemName:"doc.plaintext")
                     Text("Today's session")
