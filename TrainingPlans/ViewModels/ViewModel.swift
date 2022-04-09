@@ -9,12 +9,27 @@ import Foundation
 import Firebase
 import SwiftUI
 class ViewModel : ObservableObject {
+    @AppStorage("currentUserIndex") var index:Int = -1
     @Published var users = [Athlete]()
     @Published var trainingPlans = [[Session]]()
     @Published var trainingPlan = [Session]()
+    @Published var restDays = [Date]()
+    @Published var trainingDays = [Date]()
     init() {
         getData()
         getTrainingPlan()
+    }
+    func fetchTrainingDays() {
+        
+        trainingDays.append(users[index].lastWorkoutTime)
+        trainingPlan[0].recovery = "2"
+        for i in 1...trainingPlan.count-1 {
+           
+            let lastTrainingDay = trainingDays.last as Date?
+            let timeInterval = TimeInterval().advanced(by: (Double(trainingPlan[i-1].recovery)!+1)*86400)
+            trainingDays.append((lastTrainingDay?.addingTimeInterval(timeInterval))!)
+        }
+       
     }
     func userExits(username:String)->Bool{
         for i in users {
@@ -54,8 +69,13 @@ class ViewModel : ObservableObject {
                     DispatchQueue.main.async {
                       
                     self.users =  snapshot.documents.map { d in
-                        
-                        return Athlete(id: d.documentID, Username: d["Username"] as?String ?? "",Email: d["Email"] as? String ?? "", Password: d["Password"] as?String ?? "", Height: d["Height"] as?String ?? "", Weight: d["Weight"] as?String ?? "", Cyclist: d["Cyclist"] as?Bool ?? false, Runner: d["Runner"] as?Bool ?? false,lastWorkoutIndex: d["Last Workout"] as?Int ?? 0, lastWorkoutTime:d["Last Workout Date"] as? Date ?? Date.now)
+                        var date = Date.distantPast
+                        if d["Last Workout Date"] != nil {
+                      
+                            date = NSDate(timeIntervalSince1970: TimeInterval((d["Last Workout Date"] as!  Timestamp).seconds)) as Date
+                           
+                        }
+                        return Athlete(id: d.documentID, Username: d["Username"] as?String ?? "",Email: d["Email"] as? String ?? "", Password: d["Password"] as?String ?? "", Height: d["Height"] as?String ?? "", Weight: d["Weight"] as?String ?? "", Cyclist: d["Cyclist"] as?Bool ?? false, Runner: d["Runner"] as?Bool ?? false,lastWorkoutIndex: d["Last Workout"] as?Int ?? 0, lastWorkoutTime:date)
                     }
                         
                     }

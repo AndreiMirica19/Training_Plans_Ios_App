@@ -8,8 +8,32 @@
 import SwiftUI
 
 struct Calendar: View {
+    @EnvironmentObject var db:ViewModel
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView{
+        Spacer()
+            Divider().frame(width: .infinity, height:5)
+                .background(Color.white)
+        VStack {
+            ForEach(0..<db.trainingPlan.count) { i in
+                CalendarElement(sessionName: db.trainingPlan[i].name,date: db.trainingDays[i])
+              
+                
+                  }
+                  
+               }
+        .background(
+            Rectangle()
+                .strokeBorder(Color.white,lineWidth: 5)
+                
+              
+        )
+            
+        
+    }
+        .onAppear {
+           
+        }
     }
 }
 

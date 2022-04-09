@@ -22,6 +22,7 @@ struct MainView: View {
                     .bold()
                 }
             Calendar()
+                .environmentObject(db)
                 .tabItem{
                     Image(systemName:"calendar")
                     Text("Calendar")
@@ -37,10 +38,14 @@ struct MainView: View {
                     .bold()
                 }
         }
+        .onAppear {
+            db.fetchTrainingDays()
+        }
       
         
         
     }
+        
     
    
 }
