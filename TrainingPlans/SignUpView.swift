@@ -16,24 +16,33 @@ struct SignUpView: View {
     @Binding var signInSuccess: Bool
     @State var errorMessage = ""
     var body: some View {
-        ScrollView {
+       ScrollView {
             VStack {
+                Spacer()
+                Spacer()
+                Spacer()
                 Text("Sign up")
                     
                     .font(Font.custom("DelaGothicOne-Regular", size: 90))
                     .bold()
-                    .foregroundColor(.black)
+                    .foregroundColor(Color("MainCycling"))
                     .fontWeight(.black)
                 Spacer()
                 VStack {
                    FormFieldView(label: "Username")
-                    
+                        .foregroundColor(Color("MainCycling"))
                    FormFieldView(label: "Email")
+                        .foregroundColor(Color("MainCycling"))
                    FormFieldView(label: "Password")
+                        .foregroundColor(Color("MainCycling"))
                    FormFieldView(label: "Height")
+                        .foregroundColor(Color("MainCycling"))
                    FormFieldView(label: "Weight")
+                        .foregroundColor(Color("MainCycling"))
                    ToggleView(label: "Cyclist")
+                        .foregroundColor(Color("MainCycling"))
                    ToggleView(label: "Runner")
+                        .foregroundColor(Color("MainCycling"))
                         
                 }.background( RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.black,lineWidth: 5))
                     
@@ -41,7 +50,7 @@ struct SignUpView: View {
                     Spacer()
                     Spacer()
                     Spacer()
-              
+                    
                 Button(action:{
                     
                     if !appStore.is_Empty()  {
@@ -71,7 +80,7 @@ struct SignUpView: View {
                     .padding(.horizontal,16)
                     .padding(.vertical,10)
                     .background(
-                        Capsule().strokeBorder(Color.black,lineWidth: 5)
+                        Capsule().strokeBorder(Color("MainCycling"),lineWidth: 5)
                     )
                    
                 }.alert(errorMessage, isPresented: $errorPopUp) {
@@ -79,12 +88,19 @@ struct SignUpView: View {
                         errorMessage = ""
                     }
                 }
-                .accentColor(Color.black)
-              
+                
                
             }
-            .background(Image("SignUpWallpaper").blur(radius: 23))
-        }
+            .accentColor(Color("MainCycling"))
+            .ignoresSafeArea(.all, edges: .all)
+            .scaledToFill()
+            
+       }
+       
+       .ignoresSafeArea(.all)
+       .background(Image("loginWallpaper").scaledToFill())
+   
+            
     }
     init(signInSuccess: Binding<Bool>){
         self._signInSuccess = signInSuccess
