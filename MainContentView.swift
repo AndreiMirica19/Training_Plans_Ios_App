@@ -10,35 +10,51 @@ import SwiftUI
 struct MainContentView: View {
     @AppStorage("currentUserIndex") var index:Int = -1
     @EnvironmentObject var db:ViewModel
+    @State var title = "Today's session"
+    @State var duration = "Duration"
+    @State var description = "Description"
+    @State var durationInput = ""
+    @State var descriptionInput = ""
+    @State var nameInput = ""
+    @State var bkgImg = "CyclingWallpaper"
+    @State var btnDisabled = false
     var body: some View {
         ZStack{
         VStack{
-            Text("Today's session")
+            Text(title)
                 .font((Font.custom("DelaGothicOne-Regular", size: 36)))
                 .foregroundColor(Color("MainCycling"))
-            Text((db.trainingPlan[db.users[index].lastWorkoutIndex].name))
+            Text(nameInput)
                 .font((Font.custom("DelaGothicOne-Regular", size: 36)))
                 .foregroundColor(Color("SecondaryCycling"))
             HStack {
-                Text("Duration")
+                Text(duration)
                     .font((Font.custom("DelaGothicOne-Regular", size: 26)))
                 .bold()
                 .foregroundColor(Color("MainCycling"))
-                Text (db.trainingPlan[db.users[index].lastWorkoutIndex].duration)
+                Text (durationInput)
                     .font((Font.custom("DelaGothicOne-Regular", size: 26)))
                 .bold()
                 .foregroundColor(Color("MainCycling"))
             }
-            Text("Description")
+            Text(description)
                 .font((Font.custom("DelaGothicOne-Regular", size: 26)))
                 .foregroundColor(Color("SecondaryCycling"))
             .bold()
-            Text((db.trainingPlan[db.users[index].lastWorkoutIndex].description))
+            Text(descriptionInput)
                 .font((Font.custom("DelaGothicOne-Regular", size: 20)))
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color("SecondaryCycling"))
             Button {
-                //
+               // db.updateLastWorkout()
+                title = ""
+                description = ""
+                duration = ""
+                nameInput = ""
+                durationInput = ""
+                descriptionInput = ""
+                bkgImg = "Sleep"
+                btnDisabled = true
             } label: {
                 HStack{
                     Text("Done")
@@ -46,17 +62,19 @@ struct MainContentView: View {
                         .foregroundColor(Color("SecondaryCycling"))
                     Image(systemName: "checkmark.seal.fill")
                         .foregroundColor(Color("SecondaryCycling"))
+                        
                 }
                 .padding()
                 .background( RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color("MainCycling"),lineWidth: 5))
             }
+            .disabled(btnDisabled)
 
         }
         }
        
         .frame(minWidth:0,maxWidth: .infinity,minHeight: 0,maxHeight: .infinity,alignment: .center)
         .background(
-            Image("CyclingWallpaper")
+            Image(bkgImg)
                 .resizable()
                             .scaledToFill()
                             .frame()
@@ -65,7 +83,14 @@ struct MainContentView: View {
         .cornerRadius(50)
         .padding(.horizontal,20)
         .padding(.vertical,20)
-        
+        .onAppear {
+            durationInput = db.trainingPlan[db.users[index].lastWorkoutIndex].duration
+            descriptionInput = (db.trainingPlan[db.users[index].lastWorkoutIndex].description)
+            nameInput = (db.trainingPlan[db.users[index].lastWorkoutIndex].name)
+        }
+    }
+    init(){
+        db.fetchTrainingDays()
     }
     
 }

@@ -31,6 +31,11 @@ class ViewModel : ObservableObject {
         }
        
     }
+    func isTrainingDay()->Bool {
+        
+        
+        return false
+    }
     func userExits(username:String)->Bool{
         for i in users {
             if username == i.Username {
@@ -124,6 +129,28 @@ class ViewModel : ObservableObject {
     }
     func getUsers()->[Athlete]{
         return users
+    }
+    func updateLastWorkout(){
+        
+        let db = Firestore.firestore()
+        let name = users[index].Username
+        db.collection("Users")
+            .whereField("Username", isEqualTo: name)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    // Some error occured
+                } else if querySnapshot!.documents.count != 1 {
+                    // Perhaps this is an error for you?
+                } else {
+                    let document = querySnapshot!.documents.first
+                    document!.reference.updateData([
+                        "Last Workout": self.users[self.index].lastWorkoutIndex+1
+                       
+                    ])
+                  
+                }
+            }
+        
     }
     
 }
