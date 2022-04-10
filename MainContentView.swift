@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainContentView: View {
     @AppStorage("currentUserIndex") var index:Int = -1
-    @EnvironmentObject var db:ViewModel
+    @EnvironmentObject  var db:ViewModel
     @State var title = "Today's session"
     @State var duration = "Duration"
     @State var description = "Description"
@@ -18,8 +18,12 @@ struct MainContentView: View {
     @State var nameInput = ""
     @State var bkgImg = "CyclingWallpaper"
     @State var btnDisabled = false
+    @State var isTrainingDay = false
+    @State var trainingSessionAlreadyDone = false
     var body: some View {
+        
         ZStack{
+        if isTrainingDay{
         VStack{
             Text(title)
                 .font((Font.custom("DelaGothicOne-Regular", size: 36)))
@@ -45,8 +49,10 @@ struct MainContentView: View {
                 .font((Font.custom("DelaGothicOne-Regular", size: 20)))
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color("SecondaryCycling"))
+            if isTrainingDay && !trainingSessionAlreadyDone{
             Button {
-               // db.updateLastWorkout()
+                
+                db.updateLastWorkout()
                 title = ""
                 description = ""
                 duration = ""
@@ -55,20 +61,28 @@ struct MainContentView: View {
                 descriptionInput = ""
                 bkgImg = "Sleep"
                 btnDisabled = true
+                trainingSessionAlreadyDone = true
+                
+                
+            
+                    
             } label: {
+              
                 HStack{
                     Text("Done")
                         .font((Font.custom("DelaGothicOne-Regular", size: 20)))
                         .foregroundColor(Color("SecondaryCycling"))
                     Image(systemName: "checkmark.seal.fill")
                         .foregroundColor(Color("SecondaryCycling"))
-                        
                 }
                 .padding()
                 .background( RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color("MainCycling"),lineWidth: 5))
+                
+                
             }
             .disabled(btnDisabled)
-
+            }
+        }
         }
         }
        
@@ -84,14 +98,30 @@ struct MainContentView: View {
         .padding(.horizontal,20)
         .padding(.vertical,20)
         .onAppear {
-            durationInput = db.trainingPlan[db.users[index].lastWorkoutIndex].duration
-            descriptionInput = (db.trainingPlan[db.users[index].lastWorkoutIndex].description)
-            nameInput = (db.trainingPlan[db.users[index].lastWorkoutIndex].name)
+           
+           
+            isTrainingDay = db.isTrainingDay()
+            trainingSessionAlreadyDone = db.trainingSessionAlreadyDone()
+            if !isTrainingDay||trainingSessionAlreadyDone{
+                bkgImg = "Sleep"
+                title = ""
+                description = ""
+                duration = ""
+                nameInput = ""
+                durationInput = ""
+                descriptionInput = ""
+            }
+            else
+                if bkgImg != "Sleep"
+            {
+                durationInput = db.trainingPlan[db.trainingIndex].duration
+                descriptionInput = (db.trainingPlan[db.trainingIndex].description)
+                nameInput = (db.trainingPlan[db.trainingIndex].name)
+            }
+            
         }
     }
-    init(){
-        db.fetchTrainingDays()
-    }
+ 
     
 }
 

@@ -15,13 +15,20 @@ class ViewModel : ObservableObject {
     @Published var trainingPlan = [Session]()
     @Published var restDays = [Date]()
     @Published var trainingDays = [Date]()
+    @Published var trainingIndex :Int = -1
+ 
     init() {
+        getData()
+        getTrainingPlan()
+       
+    }
+    func refresh(){
         getData()
         getTrainingPlan()
     }
     func fetchTrainingDays() {
         
-        trainingDays.append(users[index].lastWorkoutTime)
+        trainingDays.append(users[index].startDate)
         trainingPlan[0].recovery = "2"
         for i in 1...trainingPlan.count-1 {
            
@@ -32,6 +39,27 @@ class ViewModel : ObservableObject {
        
     }
     func isTrainingDay()->Bool {
+        var today = Date.now
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        let thisMonth = dateFormatter.string(from:today)
+        dateFormatter.dateFormat = "E"
+        let thisDay = dateFormatter.string(from: today)
+        dateFormatter.dateFormat = "dd"
+        let thisDayOfMonth = dateFormatter.string(from: today)
+        for i in 0...trainingDays.count-1{
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMMM"
+            let  month = dateFormatter.string(from: trainingDays[i])
+            dateFormatter.dateFormat = "E"
+          let   day = dateFormatter.string(from: trainingDays[i])
+            dateFormatter.dateFormat = "dd"
+           let dayOfMonth = dateFormatter.string(from: trainingDays[i])
+            if(thisMonth == month && thisDay == day && thisDayOfMonth == dayOfMonth){
+                trainingIndex = i
+                return true
+            }
+        }
         
         
         return false
@@ -55,7 +83,7 @@ class ViewModel : ObservableObject {
     
     func addData(athlete:Athlete){
         let db = Firestore.firestore()
-        db.collection("Users").addDocument(data: ["Username":athlete.Username,"Email":athlete.Email,"Password":athlete.Password,"Height":athlete.Height,"Weight":athlete.Weight,"Cyclist":athlete.Cyclist,"Runner":athlete.Runner,"Last Workout":athlete.lastWorkoutIndex,"Last Workout Date":athlete.lastWorkoutTime]) { error in
+            db.collection("Users").addDocument(data: ["Username":athlete.Username,"Email":athlete.Email,"Password":athlete.Password,"Height":athlete.Height,"Weight":athlete.Weight,"Cyclist":athlete.Cyclist,"Runner":athlete.Runner,"Last Workout":athlete.lastWorkoutIndex,"Last Workout Date":athlete.startDate,"Date of Last Workout":athlete.startDate]){ error in
             if error == nil {
                 self.getData()
             }
@@ -73,14 +101,20 @@ class ViewModel : ObservableObject {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
                       
-                    self.users =  snapshot.documents.map { d in
+                     self.users =  snapshot.documents.map { d in
                         var date = Date.distantPast
+                         var lastDate = Date.distantPast
                         if d["Last Workout Date"] != nil {
                       
                             date = NSDate(timeIntervalSince1970: TimeInterval((d["Last Workout Date"] as!  Timestamp).seconds)) as Date
                            
                         }
-                        return Athlete(id: d.documentID, Username: d["Username"] as?String ?? "",Email: d["Email"] as? String ?? "", Password: d["Password"] as?String ?? "", Height: d["Height"] as?String ?? "", Weight: d["Weight"] as?String ?? "", Cyclist: d["Cyclist"] as?Bool ?? false, Runner: d["Runner"] as?Bool ?? false,lastWorkoutIndex: d["Last Workout"] as?Int ?? 0, lastWorkoutTime:date)
+                         if d["Date of Last Workout"] != nil {
+                       
+                             lastDate = NSDate(timeIntervalSince1970: TimeInterval((d["Date of Last Workout"] as!  Timestamp).seconds)) as Date
+                            
+                         }
+                        return Athlete(id: d.documentID, Username: d["Username"] as?String ?? "",Email: d["Email"] as? String ?? "", Password: d["Password"] as?String ?? "", Height: d["Height"] as?String ?? "", Weight: d["Weight"] as?String ?? "", Cyclist: d["Cyclist"] as?Bool ?? false, Runner: d["Runner"] as?Bool ?? false,lastWorkoutIndex: d["Last Workout"] as?Int ?? 0, startDate: date, lastTimeOfTraining:lastDate)
                     }
                         
                     }
@@ -144,13 +178,34 @@ class ViewModel : ObservableObject {
                 } else {
                     let document = querySnapshot!.documents.first
                     document!.reference.updateData([
-                        "Last Workout": self.users[self.index].lastWorkoutIndex+1
-                       
+                        "Last Workout": self.users[self.index].lastWorkoutIndex+1,
+                        "Date of Last Workout": Date.now
                     ])
                   
                 }
             }
         
+    }
+    func trainingSessionAlreadyDone()->Bool{
+        let today = users[index].lastTimeOfTraining
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        let thisMonth = dateFormatter.string(from:today)
+        dateFormatter.dateFormat = "E"
+        let thisDay = dateFormatter.string(from: today)
+        dateFormatter.dateFormat = "dd"
+        let thisDayOfMonth = dateFormatter.string(from: today)
+        dateFormatter.dateFormat = "MMMM"
+        let  month = dateFormatter.string(from: trainingDays[trainingIndex])
+        dateFormatter.dateFormat = "E"
+      let   day = dateFormatter.string(from: trainingDays[trainingIndex])
+        dateFormatter.dateFormat = "dd"
+       let dayOfMonth = dateFormatter.string(from: trainingDays[trainingIndex])
+       print(users[index].lastTimeOfTraining)
+        if(thisMonth == month && thisDay == day && thisDayOfMonth == dayOfMonth){
+            return true
+        }
+        return false
     }
     
 }

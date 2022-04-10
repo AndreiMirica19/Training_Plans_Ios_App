@@ -47,7 +47,7 @@ struct SignUpView: View {
                     if !appStore.is_Empty()  {
                        check()
                         if errorMessage == "" {
-                            model.addData(athlete: Athlete(id: "", Username: appStore.username,Email: appStore.email, Password: appStore.password, Height: appStore.height, Weight: appStore.weight, Cyclist: true, Runner: true,lastWorkoutIndex: 0,lastWorkoutTime: Date.now))
+                            model.addData(athlete: Athlete(id: "", Username: appStore.username,Email: appStore.email, Password: appStore.password, Height: appStore.height, Weight: appStore.weight, Cyclist: true, Runner: true,lastWorkoutIndex: 0,startDate: Date.now,lastTimeOfTraining: Date.now))
                     self.signInSuccess = true
                         }
                             

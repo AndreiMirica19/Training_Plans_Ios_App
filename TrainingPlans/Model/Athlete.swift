@@ -16,7 +16,8 @@ struct Athlete:Identifiable {
     var Cyclist:Bool
     var Runner:Bool
     var lastWorkoutIndex:Int
-    var lastWorkoutTime:Date
+    var startDate:Date
+    var lastTimeOfTraining:Date
     
     
 }
