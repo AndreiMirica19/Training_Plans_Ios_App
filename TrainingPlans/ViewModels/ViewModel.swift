@@ -36,7 +36,7 @@ class ViewModel : ObservableObject {
             let timeInterval = TimeInterval().advanced(by: (Double(trainingPlan[i-1].recovery)!+1)*86400)
             trainingDays.append((lastTrainingDay?.addingTimeInterval(timeInterval))!)
         }
-       
+      // print(trainingDays)
     }
     func isTrainingDay()->Bool {
         var today = Date.now
@@ -187,6 +187,9 @@ class ViewModel : ObservableObject {
         
     }
     func trainingSessionAlreadyDone()->Bool{
+        if users[index].lastWorkoutIndex == 0 {
+            return false
+        }
         let today = users[index].lastTimeOfTraining
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"

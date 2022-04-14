@@ -101,7 +101,9 @@ struct MainContentView: View {
            
            
             isTrainingDay = db.isTrainingDay()
+            
             trainingSessionAlreadyDone = db.trainingSessionAlreadyDone()
+            
             if !isTrainingDay||trainingSessionAlreadyDone{
                 bkgImg = "Sleep"
                 title = ""
