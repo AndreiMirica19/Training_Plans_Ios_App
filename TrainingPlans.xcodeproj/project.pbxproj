@@ -28,6 +28,7 @@
 		2EC946C927F815BA000CE666 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC946C827F815BA000CE666 /* ViewModel.swift */; };
 		2EC946CF27F821DA000CE666 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EC946CE27F821DA000CE666 /* GoogleService-Info.plist */; };
 		2EC946D227F82AC0000CE666 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2EC946D127F82AC0000CE666 /* FirebaseFirestore */; };
+		2EE79FD2280AB45B000D4FD3 /* SwiftPieChart in Frameworks */ = {isa = PBXBuildFile; productRef = 2EE79FD1280AB45B000D4FD3 /* SwiftPieChart */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE79FD2280AB45B000D4FD3 /* SwiftPieChart in Frameworks */,
 				2EC946D227F82AC0000CE666 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,6 +179,7 @@
 			name = TrainingPlans;
 			packageProductDependencies = (
 				2EC946D127F82AC0000CE666 /* FirebaseFirestore */,
+				2EE79FD1280AB45B000D4FD3 /* SwiftPieChart */,
 			);
 			productName = TrainingPlans;
 			productReference = 2E0D95B227F02CB300E31F68 /* TrainingPlans.app */;
@@ -208,6 +211,7 @@
 			mainGroup = 2E0D95A927F02CB300E31F68;
 			packageReferences = (
 				2EC946D027F82AC0000CE666 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				2EE79FD0280AB45B000D4FD3 /* XCRemoteSwiftPackageReference "SwiftPieChart" */,
 			);
 			productRefGroup = 2E0D95B327F02CB300E31F68 /* Products */;
 			projectDirPath = "";
@@ -471,6 +475,14 @@
 				kind = branch;
 			};
 		};
+		2EE79FD0280AB45B000D4FD3 /* XCRemoteSwiftPackageReference "SwiftPieChart" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ilamanov/SwiftPieChart";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -478,6 +490,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2EC946D027F82AC0000CE666 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		2EE79FD1280AB45B000D4FD3 /* SwiftPieChart */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2EE79FD0280AB45B000D4FD3 /* XCRemoteSwiftPackageReference "SwiftPieChart" */;
+			productName = SwiftPieChart;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -31,6 +31,7 @@ struct MainView: View {
                 }
             
             Stats()
+                .environmentObject(db)
                 .tabItem{
                     Image(systemName:"chart.pie")
                     Text("Statistics")

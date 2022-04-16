@@ -18,6 +18,7 @@ struct Athlete:Identifiable {
     var lastWorkoutIndex:Int
     var startDate:Date
     var lastTimeOfTraining:Date
+    var trainingDays:[Date]
     
     
 }

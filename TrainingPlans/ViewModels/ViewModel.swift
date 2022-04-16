@@ -16,6 +16,7 @@ class ViewModel : ObservableObject {
     @Published var restDays = [Date]()
     @Published var trainingDays = [Date]()
     @Published var trainingIndex :Int = -1
+    @Published var lastTrainingIndex = -1
  
     init() {
         getData()
@@ -31,10 +32,14 @@ class ViewModel : ObservableObject {
         trainingDays.append(users[index].startDate)
         trainingPlan[0].recovery = "2"
         for i in 1...trainingPlan.count-1 {
-           
+            if trainingDays.last! <= Date.now {
+                lastTrainingIndex = i+1
+            }
             let lastTrainingDay = trainingDays.last as Date?
             let timeInterval = TimeInterval().advanced(by: (Double(trainingPlan[i-1].recovery)!+1)*86400)
             trainingDays.append((lastTrainingDay?.addingTimeInterval(timeInterval))!)
+          
+           
         }
       // print(trainingDays)
     }
@@ -83,7 +88,7 @@ class ViewModel : ObservableObject {
     
     func addData(athlete:Athlete){
         let db = Firestore.firestore()
-            db.collection("Users").addDocument(data: ["Username":athlete.Username,"Email":athlete.Email,"Password":athlete.Password,"Height":athlete.Height,"Weight":athlete.Weight,"Cyclist":athlete.Cyclist,"Runner":athlete.Runner,"Last Workout":athlete.lastWorkoutIndex,"Last Workout Date":athlete.startDate,"Date of Last Workout":athlete.startDate]){ error in
+        db.collection("Users").addDocument(data: ["Username":athlete.Username,"Email":athlete.Email,"Password":athlete.Password,"Height":athlete.Height,"Weight":athlete.Weight,"Cyclist":athlete.Cyclist,"Runner":athlete.Runner,"Last Workout":athlete.lastWorkoutIndex,"Last Workout Date":athlete.startDate,"Date of Last Workout":athlete.startDate,"Workouts done":athlete.trainingDays]){ error in
             if error == nil {
                 self.getData()
             }
@@ -114,7 +119,18 @@ class ViewModel : ObservableObject {
                              lastDate = NSDate(timeIntervalSince1970: TimeInterval((d["Date of Last Workout"] as!  Timestamp).seconds)) as Date
                             
                          }
-                        return Athlete(id: d.documentID, Username: d["Username"] as?String ?? "",Email: d["Email"] as? String ?? "", Password: d["Password"] as?String ?? "", Height: d["Height"] as?String ?? "", Weight: d["Weight"] as?String ?? "", Cyclist: d["Cyclist"] as?Bool ?? false, Runner: d["Runner"] as?Bool ?? false,lastWorkoutIndex: d["Last Workout"] as?Int ?? 0, startDate: date, lastTimeOfTraining:lastDate)
+                         var sessions:[Timestamp] = []
+                         var sessionsCompleted:[Date] = []
+                         if d["Workouts done"] != nil {
+                             sessions = (d["Workouts done"]) as! [Timestamp]
+                             for i in 0...sessions.count-1{
+                                 var date = NSDate(timeIntervalSince1970: TimeInterval(sessions[i].seconds)) as Date
+                                 sessionsCompleted.append(date)
+                             }
+                             
+                             
+                         }
+                        return Athlete(id: d.documentID, Username: d["Username"] as?String ?? "",Email: d["Email"] as? String ?? "", Password: d["Password"] as?String ?? "", Height: d["Height"] as?String ?? "", Weight: d["Weight"] as?String ?? "", Cyclist: d["Cyclist"] as?Bool ?? false, Runner: d["Runner"] as?Bool ?? false,lastWorkoutIndex: d["Last Workout"] as?Int ?? 0, startDate: date, lastTimeOfTraining:lastDate,trainingDays: sessionsCompleted )
                     }
                         
                     }
@@ -179,17 +195,20 @@ class ViewModel : ObservableObject {
                     let document = querySnapshot!.documents.first
                     document!.reference.updateData([
                         "Last Workout": self.users[self.index].lastWorkoutIndex+1,
-                        "Date of Last Workout": Date.now
+                        "Date of Last Workout": Date.now,
+                        "Workouts done":[Date.now]
                     ])
+                    
                   
                 }
             }
         
     }
     func trainingSessionAlreadyDone()->Bool{
-        if users[index].lastWorkoutIndex == 0 {
+        if users[index].lastWorkoutIndex == 0 || !isTrainingDay() {
             return false
         }
+       
         let today = users[index].lastTimeOfTraining
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"
