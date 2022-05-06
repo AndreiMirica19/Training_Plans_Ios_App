@@ -123,9 +123,11 @@ class ViewModel : ObservableObject {
                          var sessionsCompleted:[Date] = []
                          if d["Workouts done"] != nil {
                              sessions = (d["Workouts done"]) as! [Timestamp]
+                             if sessions.count > 0{
                              for i in 0...sessions.count-1{
                                  var date = NSDate(timeIntervalSince1970: TimeInterval(sessions[i].seconds)) as Date
                                  sessionsCompleted.append(date)
+                             }
                              }
                              
                              
